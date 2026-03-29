@@ -5,7 +5,7 @@ export async function GET() {
   if (!supabase_url || !supabase_anon_key) {
     return new Response("Missing Supabase env variables", { status: 500 });
   }
-
+  // Fetch products from Supabase /api/test
   const response = await fetch(`${supabase_url}/rest/v1/products`, {
     method: "GET",
     headers: {
