@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { itemAdded } from "@/lib/features/cart/cartSlice";
 import {
   fetchProducts,
   productSelected,
@@ -42,6 +43,7 @@ export default function ProductsReduxPage() {
                 key={product.id}
                 product={product}
                 selected={product.id === selectedId}
+                onAddToCart={() => dispatch(itemAdded(product.id))}
                 onSelect={() => dispatch(productSelected(product.id))}
               />
             ))}
@@ -56,10 +58,12 @@ function ProductCard({
   product,
   selected,
   onSelect,
+  onAddToCart,
 }: {
   product: Product;
   selected: boolean;
   onSelect: () => void;
+  onAddToCart: () => void;
 }) {
   return (
     <li
@@ -105,6 +109,15 @@ function ProductCard({
         <p className="mt-3 text-xs text-zinc-500">
           Stock: {product.stock_quantity} · {product.supplier}
         </p>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart();
+          }}
+          className="mt-3 w-full rounded bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
+        >
+          Add to cart
+        </button>
       </div>
     </li>
   );
